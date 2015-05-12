@@ -1,20 +1,7 @@
-﻿/**
- * AngularJS fixed header scrollable table directive
- * @author Jason Watmore <jason@pointblankdevelopment.com.au> (http://jasonwatmore.com)
- * @version 1.2.0
- */
-(function () {angular.module('anguFixedHeaderTable', []).directive('fixedHeader', fixedHeader);
-
-    fixedHeader.$inject = ['$timeout'];
-
-    function fixedHeader($timeout) {
-        return {
-            restrict: 'A',
-			scope: {tableData : '='},
-            link: link
-        };
-
-        function link($scope, $elem, $attrs, $ctrl) 
+'use strict';
+angular.module('anguFixedHeaderTable', []).directive('fixedHeader', ['$timeout', function fixedHeader($timeout) 
+	{
+		function link($scope, $elem, $attrs) 
 		{
             var elem = $elem[0];
             $scope.$watch('tableData', function(newValue) 
@@ -101,14 +88,20 @@
 						if(tHeadLastColumn && tBodyLastColumn)
 						{
 							tHeadLastColumn.style.width = (tBodyLastColumn.offsetWidth + scrollBarWidth) + 'px';
+							tHeadLastColumn.style.minWidth = (tBodyLastColumn.offsetWidth + scrollBarWidth) + 'px';
+							tHeadLastColumn.style.maxWidth = (tBodyLastColumn.offsetWidth + scrollBarWidth) + 'px';
 						}
 						if(tFootLastColumn && tBodyLastColumn)
 						{
 							tFootLastColumn.style.width = (tBodyLastColumn.offsetWidth + scrollBarWidth) + 'px';
+							tFootLastColumn.style.minWidth = (tBodyLastColumn.offsetWidth + scrollBarWidth) + 'px';
+							tFootLastColumn.style.maxWidth = (tBodyLastColumn.offsetWidth + scrollBarWidth) + 'px';
 						}
 						if(tHeadLastColumn && tBodyLastColumn)
 						{
 							tBodyLastColumn.style.width = tHeadLastColumn.offsetWidth - scrollBarWidth + 'px';
+							tBodyLastColumn.style.minWidth = tHeadLastColumn.offsetWidth - scrollBarWidth + 'px';
+							tBodyLastColumn.style.maxWidth = tHeadLastColumn.offsetWidth - scrollBarWidth + 'px';
 						}
 					}
 					else
@@ -116,10 +109,18 @@
 						if(tHeadLastColumn && tBodyLastColumn)
 						{
 							tBodyLastColumn.style.width = tHeadLastColumn.offsetWidth + 'px';
+                            tBodyLastColumn.style.minWidth = tHeadLastColumn.offsetWidth + 'px';
+                            tBodyLastColumn.style.maxWidth = tHeadLastColumn.offsetWidth + 'px';
 						}
 					}
                 });
             }
         }
+		
+        return {
+            restrict: 'A',
+			scope: {tableData : '='},
+            link: link
+        };
     }
-})();
+]);
