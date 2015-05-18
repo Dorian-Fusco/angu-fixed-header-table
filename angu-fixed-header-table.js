@@ -53,7 +53,6 @@ angular.module('anguFixedHeaderTable', []).directive('fixedHeader', ['$timeout',
                             tfElems.style.minWidth = columnWidth + 'px';
                             tfElems.style.maxWidth = columnWidth + 'px';
                         }
-						console.log(i, clone.querySelector('table[fixed-header]>thead>tr:first-child>th:nth-child(' + (i + 1) + ')'));
                     });
 					
 					//Done with the math ! We can just get rid of the clone
