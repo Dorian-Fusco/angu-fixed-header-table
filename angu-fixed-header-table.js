@@ -14,9 +14,6 @@ angular.module('anguFixedHeaderTable', []).directive('fixedHeader', ['$timeout',
 			
             function transformTable() 
 			{
-                // reset display styles so column widths are correct when measured below
-                //angular.element(elem.querySelectorAll('thead, tbody, tfoot')).css('display', '');
-
                 // wrap in $timeout to give table a chance to finish rendering
                 $timeout(function () 
 				{
@@ -31,13 +28,13 @@ angular.module('anguFixedHeaderTable', []).directive('fixedHeader', ['$timeout',
 					angular.element(clone.querySelectorAll('thead, tbody, tfoot')).css('display', '');
 					$elem.parent()[0].appendChild(wrapper);
                     // set widths of columns
-                    angular.forEach(clone.querySelectorAll('tr:first-child th:not(:last-child)'), function (clonedThElem, i) 
+                    angular.forEach(clone.querySelectorAll('table[fixed-header]>thead>tr:first-child>th:not(:last-child)'), function (clonedThElem, i) 
 					{
-                        var clonedTdElems = clone.querySelector('table[fixed-header]>tbody tr:first-child th:nth-child(' + (i + 1) + '), table[fixed-header]>tbody tr:first-child td:nth-child(' + (i + 1) + ')');
+                        var clonedTdElems = clone.querySelector('table[fixed-header]>tbody>tr:first-child>th:nth-child(' + (i + 1) + '), table[fixed-header]>tbody>tr:first-child>td:nth-child(' + (i + 1) + ')');
                         var columnWidth = clonedTdElems ? clonedTdElems.offsetWidth : clonedThElem.offsetWidth;
-                        var tdElems = elem.querySelector('table[fixed-header]>tbody tr:first-child th:nth-child(' + (i + 1) + '), table[fixed-header]>tbody tr:first-child td:nth-child(' + (i + 1) + ')');
-                        var thElems = elem.querySelector('table[fixed-header]>thead tr:first-child th:nth-child(' + (i + 1) + '), table[fixed-header]>thead tr:first-child td:nth-child(' + (i + 1) + ')');
-                        var tfElems = elem.querySelector('table[fixed-header]>tfoot tr:first-child th:nth-child(' + (i + 1) + '), table[fixed-header]>tfoot tr:first-child td:nth-child(' + (i + 1) + ')');
+						var tdElems = elem.querySelector('table[fixed-header]>tbody>tr:first-child>th:nth-child(' + (i + 1) + '), table[fixed-header]>tbody>tr:first-child>td:nth-child(' + (i + 1) + ')');
+                        var thElems = elem.querySelector('table[fixed-header]>thead>tr:first-child>th:nth-child(' + (i + 1) + '), table[fixed-header]>thead>tr:first-child>td:nth-child(' + (i + 1) + ')');
+                        var tfElems = elem.querySelector('table[fixed-header]>tfoot>tr:first-child>th:nth-child(' + (i + 1) + '), table[fixed-header]>tfoot>tr:first-child>td:nth-child(' + (i + 1) + ')');
                         if (tdElems) 
 						{
                             tdElems.style.width = columnWidth + 'px';
@@ -46,7 +43,7 @@ angular.module('anguFixedHeaderTable', []).directive('fixedHeader', ['$timeout',
                         }
                         if (thElems) 
 						{
-                            thElems.style.width = columnWidth + 'px';
+							thElems.style.width = columnWidth + 'px';
                             thElems.style.minWidth = columnWidth + 'px';
                             thElems.style.maxWidth = columnWidth + 'px';
                         }
@@ -56,6 +53,7 @@ angular.module('anguFixedHeaderTable', []).directive('fixedHeader', ['$timeout',
                             tfElems.style.minWidth = columnWidth + 'px';
                             tfElems.style.maxWidth = columnWidth + 'px';
                         }
+						console.log(i, clone.querySelector('table[fixed-header]>thead>tr:first-child>th:nth-child(' + (i + 1) + ')'));
                     });
 					
 					//Done with the math ! We can just get rid of the clone
@@ -80,9 +78,9 @@ angular.module('anguFixedHeaderTable', []).directive('fixedHeader', ['$timeout',
 						tbody.style.height = 'inherit';
 					}
                     var scrollBarWidth = tbody.offsetWidth - tbody.clientWidth;
-                    var tBodyLastColumn = elem.querySelector('table[fixed-header]>tbody tr:first-child th:last-child, table[fixed-header]>tbody tr:first-child td:last-child');
-					var tHeadLastColumn = elem.querySelector('table[fixed-header]>thead tr:first-child th:last-child, table[fixed-header]>thead tr:first-child td:last-child');
-					var tFootLastColumn = elem.querySelector('table[fixed-header]>tfoot tr:first-child th:last-child, table[fixed-header]>tfoot tr:first-child td:last-child');
+                    var tBodyLastColumn = elem.querySelector('table[fixed-header]>tbody>tr:first-child>th:last-child, table[fixed-header]>tbody>tr:first-child>td:last-child');
+					var tHeadLastColumn = elem.querySelector('table[fixed-header]>thead>tr:first-child>th:last-child, table[fixed-header]>thead>tr:first-child>td:last-child');
+					var tFootLastColumn = elem.querySelector('table[fixed-header]>tfoot>tr:first-child>th:last-child, table[fixed-header]>tfoot>tr:first-child>td:last-child');
 					if (scrollBarWidth > 0) 
 					{
 						if(tHeadLastColumn && tBodyLastColumn)
